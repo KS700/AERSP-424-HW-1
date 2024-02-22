@@ -13,6 +13,7 @@
 class Plane;  // Forward declaration of the Plane class
 
 // Question 6-----------------------------------------------------------------------------------------------------------
+// Represents a pilot controlling a plane
 class Pilot { 
 private:
     std::string name;
@@ -42,6 +43,7 @@ void Pilot::assignPlane(Plane* plane) {
 }
 
 // Question 3-----------------------------------------------------------------------------------------------------------
+// Represents an aircraft's characteristics and behavior
 class Plane {
 private:
     double pos, vel, distance;
@@ -159,6 +161,9 @@ std::string Pilot::getName() const {
 int main() {
     // Question 1-----------------------------------------------------------------------------------------------------------
     // Variables to store input values
+    const double GROSS_WEIGHT_LIMIT = 2950.0;
+    const double MIN_CG = 82.1;
+    const double MAX_CG = 84.7;
     double emptyWeight, fuelWeightPerGallon, baggageWeight;
     int numFrontSeatOccupants, numRearSeatOccupants, numGallonsOfFuel;
     double emptyWeightMoment, frontSeatMomentArm, rearSeatMomentArm, fuelTankMomentArm, baggageMomentArm;
@@ -229,14 +234,14 @@ int main() {
     double newCG = 0.0;
     double gallonWeight = numGallonsOfFuel * fuelWeightPerGallon;
     double requiredFuel = gallonWeight / fuelWeightPerGallon;
-    std::cout << "Weight above(+)/below(-) gross weight limit: " << totalWeight - 2950 << " pounds" << std::endl;
+    std::cout << "Weight above(+)/below(-) gross weight limit: " << totalWeight - GROSS_WEIGHT_LIMIT << " pounds" << std::endl;
 
-    while (totalWeight > 2950 || newCG < 82.1 || newCG > 84.7) {
-        if (totalWeight > 2950 || newCG < 82.1) {
+    while (totalWeight > GROSS_WEIGHT_LIMIT || newCG < MIN_CG || newCG > MAX_CG) {
+        if (totalWeight > GROSS_WEIGHT_LIMIT || newCG < MIN_CG) {
             gallonWeight -= 0.01;
             totalWeight -= 0.01;
         }
-        else if (newCG > 84.7) {
+        else if (newCG > MAX_CG) {
             gallonWeight += 0.01;
             totalWeight += 0.01;
         }
